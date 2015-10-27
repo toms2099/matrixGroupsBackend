@@ -15,13 +15,25 @@ public class Controller {
 
 	private MatrixClient matrix = new MatrixClient();
 	
-	public static class Result {
-		public String name = "hey";
+	public static class Room {
+		public final String roomId;
+
+		public Room(final String id) {
+			this.roomId = id;
+		}
+
+		public Room() {
+			this("hey");
+		}
+
+		public static Room withId(final String id) {
+			return new Room(id);
+		}
 	}
 	
 	@RequestMapping(value="test", method=RequestMethod.GET, produces="application/json")
-	Result test() {
-	    return new Result();	
+	Room test() {
+	    return new Room();
 	}
 	
 	public static class Body {
@@ -42,11 +54,11 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="perform", method=RequestMethod.POST, produces="application/json")
-	Result perform(@RequestBody Body body) {
+	Room perform(@RequestBody Body body) {
 		
 		List<String> peeps = getList(body.keyword);
 		
-	    matrix.createRoom("candyTestRoom2", peeps);
-	    return new Result();
+	    final String roomId = matrix.createRoom(body.keyword, peeps);
+	    return Room.withId(roomId);
 	}
 }
