@@ -2,11 +2,12 @@ package com.openmarket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.web.client.RestTemplate;
 
 public class MatrixClient {
-
+	private static final Random random = new Random();
 	private RestTemplate rest = new RestTemplate();
 
 	public static class CreateRoomResult {
@@ -15,8 +16,9 @@ public class MatrixClient {
 
 	public static class CreateRoomBody {
 		public CreateRoomBody(String alias) {
-			this.room_alias = alias;
-			this.name = alias + "Room";
+			final int randInt = random.nextInt(10000);
+			this.room_alias = String.format("%s-%d", alias, randInt);
+			this.name = String.format("%sRoom-%d", alias, randInt);
 		}
 
 		public String room_alias;
