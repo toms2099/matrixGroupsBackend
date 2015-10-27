@@ -60,13 +60,19 @@ public class Controller {
 	@Autowired
 	GroupMapper gm;
 	
-	@RequestMapping(value="perform", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="escalate", method=RequestMethod.POST, produces="application/json")
 	Room perform(@RequestBody Body body) {
 
 		List<String> peeps = users.getUsers(body.keyword);
 		
 	    final String roomId = matrix.createRoom(body.keyword, peeps);
 	    return Room.withId(roomId);
+	}
+	
+	@RequestMapping(value="contactGroups", method=RequestMethod.GET, produces="application/json")
+	List<String> getGroups() {
+
+		return users.getGroups();
 	}
 	
 	@RequestMapping(value="contactGroups/{id}", method=RequestMethod.GET, produces="application/json")

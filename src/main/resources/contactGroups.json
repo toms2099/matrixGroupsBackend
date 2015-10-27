@@ -1,9 +1,9 @@
 {
     "audioTable" : {
-        "contacts" : [ "soundEngineer"]
+        "contacts" : [ "@alastaird:matrix.org"]
     },
     
     "soundSetup" : {
-        "contacts" : [ "microphones", "speakers"]
+        "contacts" : [ "@toms:matrix.org", "@rwyrobek:matrix.org"]
     }
 }

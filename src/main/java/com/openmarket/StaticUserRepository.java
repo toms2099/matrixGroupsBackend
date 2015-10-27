@@ -20,4 +20,18 @@ public class StaticUserRepository implements UserRepository {
 
         return peeps;
     }
+    
+    @Override
+    public List<String> getGroups() {
+        List<String> groups = new ArrayList<>();
+
+        // peeps.add("@toms:matrix.org");
+        groups.add("soundSetup");
+        // peeps.add("@rwyrobek:matrix.org");
+        // peeps.add("@zevans:matrix.org");
+
+        // peeps.add("@+447473157070:matrix.openmarket.com");
+
+        return groups;
+    }
 }

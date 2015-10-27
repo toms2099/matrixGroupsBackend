@@ -1,0 +1,9 @@
+{
+    "audioTable" : {
+        "contacts" : [ "soundEngineer"]
+    },
+    
+    "soundSetup" : {
+        "contacts" : [ "microphones", "speakers"]
+    }
+}
