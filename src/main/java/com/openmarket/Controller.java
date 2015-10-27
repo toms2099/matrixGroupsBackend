@@ -1,8 +1,8 @@
 package com.openmarket;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class Controller {
-
-	private MatrixClient matrix = new MatrixClient();
+	@Autowired
+	private MatrixClient matrix;
+	@Autowired
+	private UserRepository users;
 	
 	public static class Room {
 		public final String roomId;
@@ -39,24 +41,11 @@ public class Controller {
 	public static class Body {
 		public String keyword; 
 	}
-	
-	public List<String> getList(String keyword) {
-		List<String> peeps = new ArrayList<String>();
-		
-		peeps.add("@toms:matrix.org");
-		peeps.add("@alastaird:matrix.org");
-		peeps.add("@rwyrobek:matrix.org");
-		peeps.add("@zevans:matrix.org");
-		
-		peeps.add("@+447473157070:matrix.openmarket.com");
-		
-		return peeps;
-	}
-	
+
 	@RequestMapping(value="perform", method=RequestMethod.POST, produces="application/json")
 	Room perform(@RequestBody Body body) {
 		
-		List<String> peeps = getList(body.keyword);
+		List<String> peeps = users.getUsers(body.keyword);
 		
 	    final String roomId = matrix.createRoom(body.keyword, peeps);
 	    return Room.withId(roomId);

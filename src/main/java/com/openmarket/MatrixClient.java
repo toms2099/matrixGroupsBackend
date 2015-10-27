@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Component
 public class MatrixClient {
 	private static final Random random = new Random();
 	private RestTemplate rest = new RestTemplate();
