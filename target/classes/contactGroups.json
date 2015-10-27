@@ -1,9 +1,0 @@
-{
-    "audioTable" : {
-        "contacts" : [ "@alastaird:matrix.org"]
-    },
-    
-    "soundSetup" : {
-        "contacts" : [ "@toms:matrix.org", "@rwyrobek:matrix.org"]
-    }
-}
