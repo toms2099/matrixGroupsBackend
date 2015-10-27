@@ -3,8 +3,6 @@ package com.openmarket;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +14,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class Controller {
-
-	private MatrixClient matrix = new MatrixClient();
+	@Autowired
+	private MatrixClient matrix;
+	@Autowired
+	private UserRepository users;
 	
-	public static class Result {
-		public String name = "hey";
+	public static class Room {
+		public final String roomId;
+
+		public Room(final String id) {
+			this.roomId = id;
+		}
+
+		public Room() {
+			this("hey");
+		}
+
+		public static Room withId(final String id) {
+			return new Room(id);
+		}
 	}
 	
 	@RequestMapping(value="test", method=RequestMethod.GET, produces="application/json")
-	Result test() {
-	    return new Result();	
+	Room test() {
+	    return new Room();
 	}
 	
 	public static class Body {
@@ -49,19 +61,17 @@ public class Controller {
 	GroupMapper gm;
 	
 	@RequestMapping(value="perform", method=RequestMethod.POST, produces="application/json")
-	Result perform(@RequestBody Body body) {
+	Room perform(@RequestBody Body body) {
+
+		List<String> peeps = users.getUsers(body.keyword);
 		
-		gm.getUsers("test");
-		
-		List<String> peeps = getList(body.keyword);
-		
-	    matrix.createRoom("candyTestRoom2", peeps);
-	    return new Result();
+	    final String roomId = matrix.createRoom(body.keyword, peeps);
+	    return Room.withId(roomId);
 	}
 	
 	@RequestMapping(value="contactGroups/{id}", method=RequestMethod.GET, produces="application/json")
 	List<String> get(@PathVariable String id) {
 		
-		return gm.getUsers(id);
+		return users.getUsers(id);
 	}
 }

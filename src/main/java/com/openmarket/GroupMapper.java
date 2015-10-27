@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
 
 @Component
-public class GroupMapper {
+public class GroupMapper implements UserRepository {
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	@Autowired
