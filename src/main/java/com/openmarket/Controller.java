@@ -44,29 +44,9 @@ public class Controller {
 		public String keyword; 
 	}
 	
-	public List<String> getList(String keyword) {
-		List<String> peeps = new ArrayList<String>();
-		
-		peeps.add("@toms:matrix.org");
-		peeps.add("@alastaird:matrix.org");
-		peeps.add("@rwyrobek:matrix.org");
-		peeps.add("@zevans:matrix.org");
-		
-		peeps.add("@+447473157070:matrix.openmarket.com");
-		
-		return peeps;
-	}
-	
-	@Autowired
-	GroupMapper gm;
-	
 	@RequestMapping(value="escalate", method=RequestMethod.POST, produces="application/json")
 	Room perform(@RequestBody Body body) {
-
-		List<String> peeps = users.getUsers(body.keyword);
-		
-	    final String roomId = matrix.createRoom(body.keyword, peeps);
-	    return Room.withId(roomId);
+		return Room.withId(matrix.createRoom(body.keyword, users.getUsers(body.keyword)));
 	}
 	
 	@RequestMapping(value="contactGroups", method=RequestMethod.GET, produces="application/json")
